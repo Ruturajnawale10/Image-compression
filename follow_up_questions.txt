@@ -1,0 +1,15 @@
+1. Why do you use strings to represent colors?
+- I had used strings for more readibility, but I realize now that saving space is more important, and so I used int val to represent color in Quadtree. 0 represents black, 1 represents white, and -1 represents the presence of both colors. Alternatively, I could have also used isLeaf flag to represent presence or absence of combination of black and white pixels, but was not required.
+
+2. Can your simulated images be more realistic: blobs can have irregular shapes, and dye may contain veins etc.
+- Yes, I have modified the code to represent irregularity in shapes of the parasite and dye, where dye image includes contains veins shaped structure.
+
+3. Why is QuadTree a good representation for both images?  Since the blob shape is very different from veins in the dye image, shouldn’t it make sense that different representations would be more suitable?
+- QuadTree is a good representation for both type of images since it efficiently stores data for both types. I explored another compression technique called Run Length Encoding which works well typically for line art images, which in this case resembles the presence of veins for dye images. I found out that RLE works very well images where the lines are horizontal, which is where I observed some difference in storage space for RLE vs QuadTree.
+I purposely drew more horizontal lines to demonstrate this. However, if the lines are in random directions or there if there are more small blob like presence of dye, then QuadTree would be better or as at the least as good as RLE to use for dye images.
+
+4. Also, why did you simulate only for 1000x1000 images, when the question clearly states that the size to be used is 100Kx100K?
+- I had used 1000x1000 images earlier because saving images of larger size images resulted in crash. However, I identified the problem and reduced the storage space for images by changing image mode from RGB to '1', which means it only stores black and white pixels. So, the size of each pixel drastically reduces from 8 * 3 bits to 1 bit. I have now created images of 10000x10000. I tried a lot of optimizations, but was unable to generate 100Kx100K images because my laptop started facing heating issues as converting the large image to quad tree and rle took up a lot of time to execute as well as the space involved in it. I used tif images to store compressed images with 100Kx100K dimensions, but still faced an issue when loading the large image for 100Kx100K. I got the error: Possible Dos attack for loading large pixels. I looked up some ways to solve this issue such as loading data in chunks and processing, but it will possibly take more time implement.
+
+5. Can you report runtime and storage for these full-sized images?
+- 100Kx100K is represented by images with '1' mode, so each pixel takes 1 bit. So we have in total 10^10 bits = 1.16GB
